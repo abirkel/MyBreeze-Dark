@@ -104,9 +104,13 @@ ICONS = {
     },
     'help': {
         'paths': [
-            # Question mark path
-            '<path d="M 5,6 A 4,2.5 0 0,1 13,6 C 13,8.5 12.5,9.5 9,11.5" fill="none" />',
-            '<rect x="9" y="15" width="0.5" height="0.5" fill="currentColor" stroke="none" />',
+            # Question mark - exact Breeze path
+            # path.moveTo(5, 6); path.arcTo(QRectF(5, 3.5, 8, 5), 180, -180); path.cubicTo(QPointF(12.5, 9.5), QPointF(9, 7.5), QPointF(9, 11.5));
+            # Arc: QRectF(5, 3.5, 8, 5) = x,y,w,h so center at (5+4, 3.5+2.5) = (9, 6), radii 4x2.5
+            # Start angle 180° (left), sweep -180° (clockwise to right)
+            '<path d="M 5,6 A 4,2.5 0 0 1 13,6 C 12.5,9.5 9,7.5 9,11.5" fill="none" stroke-width="1.01" />',
+            # Dot at bottom - painter->drawRect(QRectF(9, 15, 0.5, 0.5))
+            '<rect x="9" y="15" width="0.5" height="0.5" fill="#fcfcfc" stroke="none" />',
         ]
     },
 }
@@ -137,7 +141,7 @@ def generate_icon(name, icon_data):
                 adjusted = re.sub(r'points="([^"]+)"', lambda m: adjust_points(m.group(1), x_offset), adjusted)
                 # Adjust path d attribute
                 if 'd="' in adjusted:
-                    adjusted = re.sub(r'd="([^"]+)"', lambda m: adjust_path_d(m.group(1), x_offset), adjusted)
+                    adjusted = re.sub(r'd="([^"]+)"', lambda m: f'd="{adjust_path_d(m.group(1), x_offset)}"', adjusted)
             result.append(f'    <g class="{css_class}">{adjusted}</g>')
         return '\n'.join(result)
     
@@ -154,12 +158,17 @@ def generate_icon(name, icon_data):
     def adjust_path_d(d_str, offset):
         """Adjust x coordinates in path d attribute."""
         import re
-        # This is simplified - adjust numbers after M, L, A commands
+        # Parse and adjust SVG path commands - process in order
         result = d_str
-        # Add offset to absolute x coordinates (rough approximation)
-        result = re.sub(r'M\s*(\d+\.?\d*)', lambda m: f'M {float(m.group(1)) + offset}', result)
-        result = re.sub(r'A\s*(\d+\.?\d*),(\d+\.?\d*)\s+(\d+)\s+(\d+),(\d+)\s+(\d+\.?\d*)', 
-                       lambda m: f'A {m.group(1)},{m.group(2)} {m.group(3)} {m.group(4)},{m.group(5)} {float(m.group(6)) + offset}', result)
+        # M command: M x,y
+        result = re.sub(r'M\s*(\d+\.?\d*),(\d+\.?\d*)', lambda m: f'M {float(m.group(1)) + offset},{m.group(2)}', result)
+        # A command: A rx,ry rotation large-arc sweep x,y
+        # Format: A 4,2.5 0 0 1 13,6 (spaces between flags, comma between x,y)
+        result = re.sub(r'A\s+(\d+\.?\d*),(\d+\.?\d*)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+\.?\d*),(\d+\.?\d*)', 
+                       lambda m: f'A {m.group(1)},{m.group(2)} {m.group(3)} {m.group(4)} {m.group(5)} {float(m.group(6)) + offset},{m.group(7)}', result)
+        # C command: C x1,y1 x2,y2 x,y
+        result = re.sub(r'C\s*(\d+\.?\d*),(\d+\.?\d*)\s+(\d+\.?\d*),(\d+\.?\d*)\s+(\d+\.?\d*),(\d+\.?\d*)', 
+                       lambda m: f'C {float(m.group(1)) + offset},{m.group(2)} {float(m.group(3)) + offset},{m.group(4)} {float(m.group(5)) + offset},{m.group(6)}', result)
         return result
     
     paths_normal = make_paths(0, 'icon-normal')
