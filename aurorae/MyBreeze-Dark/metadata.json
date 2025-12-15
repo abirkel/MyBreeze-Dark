@@ -1,0 +1,17 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "user@example.com",
+                "Name": "MyBreeze-Dark Contributors"
+            }
+        ],
+        "Category": "",
+        "Dependencies": [],
+        "EnabledByDefault": true,
+        "Id": "MyBreeze-Dark",
+        "License": "GPLv3",
+        "Name": "MyBreeze-Dark",
+        "Version": "1.0"
+    }
+}
