@@ -26,23 +26,23 @@
   <!-- Inactive state -->
   <g id="inactive-center" transform="translate(18,0)">
     <rect x="18" y="0" width="18" height="18" fill="none" opacity="0.01" />
-    <g class="icon-normal"><polyline 22.0,5 27.0,10 32.0,5 /></g>
-    <g class="icon-normal"><polyline 22.0,9 27.0,14 32.0,9 /></g>
+    <g class="icon-normal"><polyline points="22.0,5 27.0,10 32.0,5" /></g>
+    <g class="icon-normal"><polyline points="22.0,9 27.0,14 32.0,9" /></g>
   </g>
   
   <!-- Hover state -->
   <g id="hover-center" transform="translate(36,0)">
     <rect x="36" y="0" width="18" height="18" fill="none" opacity="0.01" />
     <circle cx="45" cy="9" r="9" class="bg-hover" />
-    <g class="icon-hover"><polyline 40.0,5 45.0,10 50.0,5 /></g>
-    <g class="icon-hover"><polyline 40.0,9 45.0,14 50.0,9 /></g>
+    <g class="icon-hover"><polyline points="40.0,5 45.0,10 50.0,5" /></g>
+    <g class="icon-hover"><polyline points="40.0,9 45.0,14 50.0,9" /></g>
   </g>
   
   <!-- Pressed state -->
   <g id="pressed-center" transform="translate(54,0)">
     <rect x="54" y="0" width="18" height="18" fill="none" opacity="0.01" />
     <circle cx="63" cy="9" r="9" class="bg-pressed" />
-    <g class="icon-hover"><polyline 58.0,5 63.0,10 68.0,5 /></g>
-    <g class="icon-hover"><polyline 58.0,9 63.0,14 68.0,9 /></g>
+    <g class="icon-hover"><polyline points="58.0,5 63.0,10 68.0,5" /></g>
+    <g class="icon-hover"><polyline points="58.0,9 63.0,14 68.0,9" /></g>
   </g>
 </svg>

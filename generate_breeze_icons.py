@@ -138,7 +138,7 @@ def generate_icon(name, icon_data):
                 adjusted = re.sub(r' x="(\d+\.?\d*)"', lambda m: f' x="{float(m.group(1)) + x_offset}"', adjusted)
                 adjusted = re.sub(r'cx="(\d+\.?\d*)"', lambda m: f'cx="{float(m.group(1)) + x_offset}"', adjusted)
                 # Adjust points in polyline/polygon
-                adjusted = re.sub(r'points="([^"]+)"', lambda m: adjust_points(m.group(1), x_offset), adjusted)
+                adjusted = re.sub(r'points="([^"]+)"', lambda m: f'points="{adjust_points(m.group(1), x_offset)}"', adjusted)
                 # Adjust path d attribute
                 if 'd="' in adjusted:
                     adjusted = re.sub(r'd="([^"]+)"', lambda m: f'd="{adjust_path_d(m.group(1), x_offset)}"', adjusted)
