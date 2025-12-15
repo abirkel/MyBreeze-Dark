@@ -1,15 +1,17 @@
-# MyBreeze-Dark Window Decoration
+# MyBreeze-Dark
 
-A modern, dark window decoration theme for KDE Plasma that combines the best of MyBreeze and Breeze design philosophies.
+A modern, dark theme for KDE Plasma that combines the best of MyBreeze and Breeze design philosophies. Includes both window decoration and color scheme for a cohesive experience.
 
 ## Features
 
-- **Dark, Professional Aesthetic**: Based on Breeze Dark color scheme
+- **Dark, Professional Aesthetic**: Based on official Breeze Dark color scheme
 - **Clean, Minimal Design**: No window borders by default
+- **Consistent Inactive States**: Menu bar text matches window title when inactive
 - **Smooth Animations**: Subtle transitions between window states
 - **Accent Color Support**: Respects system accent color settings
-- **Aurorae-Based**: Lightweight SVG-based implementation
+- **Aurorae-Based**: Lightweight SVG-based window decoration
 - **Modern Proportions**: 22px title bar with optimal spacing
+- **Matching Color Scheme**: Custom colors for unified appearance
 
 ## Color Palette
 
@@ -50,46 +52,79 @@ To get matching inactive menu bar text colors:
 
 This will make the File/Edit/Help menu text match the window title color when the window is inactive (muted gray-blue instead of white).
 
+## What's Included
+
+### Window Decoration (Aurorae)
+- Custom window frame with Breeze Dark colors
+- Title bar: 22px height, centered text
+- No window borders (clean, modern look)
+- Breeze-style buttons with proper hover states
+- Close button: Red on hover
+- Other buttons: Blue accent on hover
+
+### Color Scheme
+- Based on Breeze Dark
+- **Key difference**: Inactive window menu bar text is muted (RGB 161,169,177) instead of white
+- Matches inactive window title text for visual consistency
+- All other colors identical to Breeze Dark
+
 ## File Structure
 
 ```
-aurorae/MyBreeze-Dark/
-├── metadata.json              # Plugin metadata
-├── MyBreeze-Dark.rc          # Configuration file
-├── decoration.svg            # Main window frame
-├── close.svg                 # Close button
-├── minimize.svg              # Minimize button
-├── maximize.svg              # Maximize button
-├── restore.svg               # Restore button
-├── help.svg                  # Help button
-├── shade.svg                 # Shade button
-├── keepabove.svg             # Keep above button
-├── keepbelow.svg             # Keep below button
-└── alldesktops.svg           # All desktops button
+MyBreeze-Dark/
+├── aurorae/MyBreeze-Dark/
+│   ├── metadata.json          # Plugin metadata (KDE 6)
+│   ├── metadata.desktop       # Plugin metadata (KDE 5)
+│   ├── MyBreeze-Darkrc        # Configuration file
+│   ├── decoration.svg         # Main window frame
+│   └── *.svg                  # Button icons (10 files)
+├── colors/
+│   └── MyBreeze-Dark.colors   # Color scheme
+└── README.md
 ```
 
 ## Configuration
 
-The theme is configured via `MyBreeze-Dark.rc`:
+### Window Decoration Settings (MyBreeze-Darkrc)
 
 - **Title Bar Height**: 22px
 - **Button Size**: 19.7px × 19px
 - **Button Spacing**: 6px
 - **Window Borders**: Disabled (0px)
-- **Text Alignment**: Center
+- **Text Alignment**: Center (horizontal and vertical)
 - **Animations**: Enabled
+- **Active Text Color**: RGB(252, 252, 252) - Off-white
+- **Inactive Text Color**: RGB(161, 169, 177) - Muted gray-blue
 
-To customize, edit the `.rc` file and restart KDE Plasma.
+To customize, edit `MyBreeze-Darkrc` and restart KDE Plasma.
+
+### Color Scheme Customization
+
+The color scheme can be edited at `~/.local/share/color-schemes/MyBreeze-Dark.colors`. Key customization:
+- `[Colors:Header][Inactive]` → `ForegroundNormal=161,169,177` (inactive menu text)
 
 ## Design Philosophy
 
-MyBreeze-Dark is a hybrid theme that:
+MyBreeze-Dark is a hybrid theme that combines:
 
-1. **Uses Aurorae Framework**: For quick customization and lightweight rendering
-2. **Adopts Breeze Colors**: For system consistency and modern aesthetics
-3. **Maintains Clean Design**: Minimal borders and flat surfaces
-4. **Supports Theming**: Respects system color schemes and accent colors
-5. **Provides Smooth Interactions**: Subtle animations and transitions
+1. **MyBreeze Layout**: 22px title bar, optimal button spacing, clean proportions
+2. **Breeze Dark Colors**: Official KDE color palette from `[WM]` section
+3. **No Blue Accents**: Removed blue border lines from original MyBreeze
+4. **Consistent Inactive States**: Menu bar text matches window title when unfocused
+5. **Aurorae Framework**: Lightweight SVG-based rendering
+6. **Modern Aesthetics**: Flat design, minimal borders, smooth transitions
+
+### Key Differences from Stock Themes
+
+**vs. Breeze Dark:**
+- Uses MyBreeze's superior spacing and proportions
+- Includes matching color scheme with muted inactive menu text
+
+**vs. MyBreeze:**
+- Uses Breeze Dark colors instead of blue-gray tones
+- Removes blue accent borders
+- No window borders by default
+- Includes coordinated color scheme
 
 ## Button Layout
 
@@ -132,13 +167,23 @@ GPLv3 - See LICENSE file for details
 - Check that all SVG files are present
 - Verify file permissions (should be readable)
 
+## Changelog
+
+### v1.0 (Current)
+- Initial release
+- Window decoration with Breeze Dark colors
+- Removed blue accent borders from MyBreeze
+- Custom color scheme with muted inactive menu text
+- No window borders by default
+- Proper metadata files for KDE 5 and 6
+
 ## Future Enhancements
 
 - [ ] Light variant (MyBreeze-Light)
-- [ ] Custom accent color support
-- [ ] Additional button styles
+- [ ] Additional button layout options
 - [ ] High-DPI scaling improvements
-- [ ] Animation customization options
+- [ ] Animation speed customization
+- [ ] Optional window border variants
 
 ## Support
 
