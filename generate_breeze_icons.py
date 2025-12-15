@@ -6,29 +6,49 @@ Based on exact coordinates from breeze-official/kdecoration/breezebutton.cpp
 
 import os
 
-# SVG template with proper structure
+# SVG template with proper Aurorae state structure
 SVG_TEMPLATE = '''<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
    width="18"
    height="18"
-   viewBox="0 0 18 18"
+   viewBox="0 0 72 18"
    version="1.1"
    xmlns="http://www.w3.org/2000/svg">
   <defs>
     <style type="text/css">
-      .ColorScheme-Text {{ fill:#fcfcfc; }}
-      .ColorScheme-Background {{ fill:#292c30; }}
-      .ColorScheme-Highlight {{ fill:#3daeea; }}
-      .ColorScheme-NegativeText {{ fill:#da4453; }}
+      .icon-normal {{ fill:none; stroke:#fcfcfc; stroke-width:1.01; stroke-linecap:round; stroke-linejoin:round; }}
+      .icon-hover {{ fill:none; stroke:#ffffff; stroke-width:1.01; stroke-linecap:round; stroke-linejoin:round; }}
+      .bg-hover {{ fill:#3daeea; }}
+      .bg-hover-close {{ fill:#da4453; }}
+      .bg-pressed {{ fill:#33a4e0; }}
+      .bg-pressed-close {{ fill:#c63d47; }}
     </style>
   </defs>
   
-  <!-- Normal state background (invisible, for hit area) -->
-  <circle id="normal-bg" cx="9" cy="9" r="9" fill="none" opacity="0" />
+  <!-- Active state (normal) -->
+  <g id="active-center" transform="translate(0,0)">
+    <rect x="0" y="0" width="18" height="18" fill="none" opacity="0.01" />
+{icon_paths_normal}
+  </g>
   
-  <!-- Icon paths -->
-  <g id="icon-normal" class="ColorScheme-Text" fill="none" stroke="currentColor" stroke-width="1.01" stroke-linecap="round" stroke-linejoin="round">
-{icon_paths}
+  <!-- Inactive state -->
+  <g id="inactive-center" transform="translate(18,0)">
+    <rect x="18" y="0" width="18" height="18" fill="none" opacity="0.01" />
+{icon_paths_inactive}
+  </g>
+  
+  <!-- Hover state -->
+  <g id="hover-center" transform="translate(36,0)">
+    <rect x="36" y="0" width="18" height="18" fill="none" opacity="0.01" />
+    <circle cx="45" cy="9" r="9" class="{hover_bg_class}" />
+{icon_paths_hover}
+  </g>
+  
+  <!-- Pressed state -->
+  <g id="pressed-center" transform="translate(54,0)">
+    <rect x="54" y="0" width="18" height="18" fill="none" opacity="0.01" />
+    <circle cx="63" cy="9" r="9" class="{pressed_bg_class}" />
+{icon_paths_pressed}
   </g>
 </svg>'''
 
@@ -92,9 +112,69 @@ ICONS = {
 }
 
 def generate_icon(name, icon_data):
-    """Generate SVG for a single icon."""
-    paths = '\n    '.join(icon_data['paths'])
-    svg_content = SVG_TEMPLATE.format(icon_paths=paths)
+    """Generate SVG for a single icon with all states."""
+    paths = icon_data['paths']
+    
+    # Determine background classes (close button uses red)
+    hover_bg = 'bg-hover-close' if name == 'close' else 'bg-hover'
+    pressed_bg = 'bg-pressed-close' if name == 'close' else 'bg-pressed'
+    
+    # Generate paths for each state with proper transforms
+    def make_paths(x_offset, css_class):
+        result = []
+        for path in paths:
+            # Adjust x coordinates in the path
+            adjusted = path
+            if x_offset > 0:
+                # Simple string replacement for common attributes
+                import re
+                # Replace x1, x2, x, cx attributes
+                adjusted = re.sub(r'x1="(\d+\.?\d*)"', lambda m: f'x1="{float(m.group(1)) + x_offset}"', adjusted)
+                adjusted = re.sub(r'x2="(\d+\.?\d*)"', lambda m: f'x2="{float(m.group(1)) + x_offset}"', adjusted)
+                adjusted = re.sub(r' x="(\d+\.?\d*)"', lambda m: f' x="{float(m.group(1)) + x_offset}"', adjusted)
+                adjusted = re.sub(r'cx="(\d+\.?\d*)"', lambda m: f'cx="{float(m.group(1)) + x_offset}"', adjusted)
+                # Adjust points in polyline/polygon
+                adjusted = re.sub(r'points="([^"]+)"', lambda m: adjust_points(m.group(1), x_offset), adjusted)
+                # Adjust path d attribute
+                if 'd="' in adjusted:
+                    adjusted = re.sub(r'd="([^"]+)"', lambda m: adjust_path_d(m.group(1), x_offset), adjusted)
+            result.append(f'    <g class="{css_class}">{adjusted}</g>')
+        return '\n'.join(result)
+    
+    def adjust_points(points_str, offset):
+        """Adjust x coordinates in points attribute."""
+        pairs = points_str.split()
+        adjusted = []
+        for pair in pairs:
+            if ',' in pair:
+                x, y = pair.split(',')
+                adjusted.append(f"{float(x) + offset},{y}")
+        return ' '.join(adjusted)
+    
+    def adjust_path_d(d_str, offset):
+        """Adjust x coordinates in path d attribute."""
+        import re
+        # This is simplified - adjust numbers after M, L, A commands
+        result = d_str
+        # Add offset to absolute x coordinates (rough approximation)
+        result = re.sub(r'M\s*(\d+\.?\d*)', lambda m: f'M {float(m.group(1)) + offset}', result)
+        result = re.sub(r'A\s*(\d+\.?\d*),(\d+\.?\d*)\s+(\d+)\s+(\d+),(\d+)\s+(\d+\.?\d*)', 
+                       lambda m: f'A {m.group(1)},{m.group(2)} {m.group(3)} {m.group(4)},{m.group(5)} {float(m.group(6)) + offset}', result)
+        return result
+    
+    paths_normal = make_paths(0, 'icon-normal')
+    paths_inactive = make_paths(18, 'icon-normal')
+    paths_hover = make_paths(36, 'icon-hover')
+    paths_pressed = make_paths(54, 'icon-hover')
+    
+    svg_content = SVG_TEMPLATE.format(
+        icon_paths_normal=paths_normal,
+        icon_paths_inactive=paths_inactive,
+        icon_paths_hover=paths_hover,
+        icon_paths_pressed=paths_pressed,
+        hover_bg_class=hover_bg,
+        pressed_bg_class=pressed_bg
+    )
     return svg_content
 
 def main():

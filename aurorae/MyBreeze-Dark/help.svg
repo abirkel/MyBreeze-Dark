@@ -2,24 +2,47 @@
 <svg
    width="18"
    height="18"
-   viewBox="0 0 18 18"
+   viewBox="0 0 72 18"
    version="1.1"
    xmlns="http://www.w3.org/2000/svg">
   <defs>
     <style type="text/css">
-      .ColorScheme-Text { fill:#fcfcfc; }
-      .ColorScheme-Background { fill:#292c30; }
-      .ColorScheme-Highlight { fill:#3daeea; }
-      .ColorScheme-NegativeText { fill:#da4453; }
+      .icon-normal { fill:none; stroke:#fcfcfc; stroke-width:1.01; stroke-linecap:round; stroke-linejoin:round; }
+      .icon-hover { fill:none; stroke:#ffffff; stroke-width:1.01; stroke-linecap:round; stroke-linejoin:round; }
+      .bg-hover { fill:#3daeea; }
+      .bg-hover-close { fill:#da4453; }
+      .bg-pressed { fill:#33a4e0; }
+      .bg-pressed-close { fill:#c63d47; }
     </style>
   </defs>
   
-  <!-- Normal state background (invisible, for hit area) -->
-  <circle id="normal-bg" cx="9" cy="9" r="9" fill="none" opacity="0" />
+  <!-- Active state (normal) -->
+  <g id="active-center" transform="translate(0,0)">
+    <rect x="0" y="0" width="18" height="18" fill="none" opacity="0.01" />
+    <g class="icon-normal"><path d="M 5,6 A 4,2.5 0 0,1 13,6 C 13,8.5 12.5,9.5 9,11.5" fill="none" /></g>
+    <g class="icon-normal"><rect x="9" y="15" width="0.5" height="0.5" fill="currentColor" stroke="none" /></g>
+  </g>
   
-  <!-- Icon paths -->
-  <g id="icon-normal" class="ColorScheme-Text" fill="none" stroke="currentColor" stroke-width="1.01" stroke-linecap="round" stroke-linejoin="round">
-<path d="M 5,6 A 4,2.5 0 0,1 13,6 C 13,8.5 12.5,9.5 9,11.5" fill="none" />
-    <rect x="9" y="15" width="0.5" height="0.5" fill="currentColor" stroke="none" />
+  <!-- Inactive state -->
+  <g id="inactive-center" transform="translate(18,0)">
+    <rect x="18" y="0" width="18" height="18" fill="none" opacity="0.01" />
+    <g class="icon-normal"><path M 23.0,6 A 4,2.5 0 0,1 31.0,6 C 13,8.5 12.5,9.5 9,11.5 fill="none" /></g>
+    <g class="icon-normal"><rect x="27.0" y="15" width="0.5" height="0.5" fill="currentColor" stroke="none" /></g>
+  </g>
+  
+  <!-- Hover state -->
+  <g id="hover-center" transform="translate(36,0)">
+    <rect x="36" y="0" width="18" height="18" fill="none" opacity="0.01" />
+    <circle cx="45" cy="9" r="9" class="bg-hover" />
+    <g class="icon-hover"><path M 41.0,6 A 4,2.5 0 0,1 49.0,6 C 13,8.5 12.5,9.5 9,11.5 fill="none" /></g>
+    <g class="icon-hover"><rect x="45.0" y="15" width="0.5" height="0.5" fill="currentColor" stroke="none" /></g>
+  </g>
+  
+  <!-- Pressed state -->
+  <g id="pressed-center" transform="translate(54,0)">
+    <rect x="54" y="0" width="18" height="18" fill="none" opacity="0.01" />
+    <circle cx="63" cy="9" r="9" class="bg-pressed" />
+    <g class="icon-hover"><path M 59.0,6 A 4,2.5 0 0,1 67.0,6 C 13,8.5 12.5,9.5 9,11.5 fill="none" /></g>
+    <g class="icon-hover"><rect x="63.0" y="15" width="0.5" height="0.5" fill="currentColor" stroke="none" /></g>
   </g>
 </svg>

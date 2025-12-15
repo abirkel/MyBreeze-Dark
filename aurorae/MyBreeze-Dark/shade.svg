@@ -2,24 +2,47 @@
 <svg
    width="18"
    height="18"
-   viewBox="0 0 18 18"
+   viewBox="0 0 72 18"
    version="1.1"
    xmlns="http://www.w3.org/2000/svg">
   <defs>
     <style type="text/css">
-      .ColorScheme-Text { fill:#fcfcfc; }
-      .ColorScheme-Background { fill:#292c30; }
-      .ColorScheme-Highlight { fill:#3daeea; }
-      .ColorScheme-NegativeText { fill:#da4453; }
+      .icon-normal { fill:none; stroke:#fcfcfc; stroke-width:1.01; stroke-linecap:round; stroke-linejoin:round; }
+      .icon-hover { fill:none; stroke:#ffffff; stroke-width:1.01; stroke-linecap:round; stroke-linejoin:round; }
+      .bg-hover { fill:#3daeea; }
+      .bg-hover-close { fill:#da4453; }
+      .bg-pressed { fill:#33a4e0; }
+      .bg-pressed-close { fill:#c63d47; }
     </style>
   </defs>
   
-  <!-- Normal state background (invisible, for hit area) -->
-  <circle id="normal-bg" cx="9" cy="9" r="9" fill="none" opacity="0" />
+  <!-- Active state (normal) -->
+  <g id="active-center" transform="translate(0,0)">
+    <rect x="0" y="0" width="18" height="18" fill="none" opacity="0.01" />
+    <g class="icon-normal"><line x1="4" y1="5.5" x2="14" y2="5.5" /></g>
+    <g class="icon-normal"><polyline points="4,13 9,8 14,13" /></g>
+  </g>
   
-  <!-- Icon paths -->
-  <g id="icon-normal" class="ColorScheme-Text" fill="none" stroke="currentColor" stroke-width="1.01" stroke-linecap="round" stroke-linejoin="round">
-<line x1="4" y1="5.5" x2="14" y2="5.5" />
-    <polyline points="4,13 9,8 14,13" />
+  <!-- Inactive state -->
+  <g id="inactive-center" transform="translate(18,0)">
+    <rect x="18" y="0" width="18" height="18" fill="none" opacity="0.01" />
+    <g class="icon-normal"><line x1="22.0" y1="5.5" x2="32.0" y2="5.5" /></g>
+    <g class="icon-normal"><polyline 22.0,13 27.0,8 32.0,13 /></g>
+  </g>
+  
+  <!-- Hover state -->
+  <g id="hover-center" transform="translate(36,0)">
+    <rect x="36" y="0" width="18" height="18" fill="none" opacity="0.01" />
+    <circle cx="45" cy="9" r="9" class="bg-hover" />
+    <g class="icon-hover"><line x1="40.0" y1="5.5" x2="50.0" y2="5.5" /></g>
+    <g class="icon-hover"><polyline 40.0,13 45.0,8 50.0,13 /></g>
+  </g>
+  
+  <!-- Pressed state -->
+  <g id="pressed-center" transform="translate(54,0)">
+    <rect x="54" y="0" width="18" height="18" fill="none" opacity="0.01" />
+    <circle cx="63" cy="9" r="9" class="bg-pressed" />
+    <g class="icon-hover"><line x1="58.0" y1="5.5" x2="68.0" y2="5.5" /></g>
+    <g class="icon-hover"><polyline 58.0,13 63.0,8 68.0,13 /></g>
   </g>
 </svg>
