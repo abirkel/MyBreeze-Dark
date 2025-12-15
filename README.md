@@ -24,6 +24,8 @@ All colors are derived from the official Breeze Dark color scheme:
 
 ## Installation
 
+### Window Decoration
+
 1. Copy the `aurorae/MyBreeze-Dark` folder to:
    - `~/.local/share/aurorae/themes/` (user-wide)
    - Or `/usr/share/aurorae/themes/` (system-wide)
@@ -32,6 +34,21 @@ All colors are derived from the official Breeze Dark color scheme:
 3. Navigate to: Appearance → Window Decorations
 4. Select "MyBreeze-Dark" from the list
 5. Click "Apply"
+
+### Color Scheme (Optional but Recommended)
+
+To get matching inactive menu bar text colors:
+
+1. Copy `colors/MyBreeze-Dark.colors` to:
+   - `~/.local/share/color-schemes/` (user-wide)
+   - Or `/usr/share/color-schemes/` (system-wide)
+
+2. Open KDE System Settings
+3. Navigate to: Appearance → Colors
+4. Select "MyBreeze-Dark" from the list
+5. Click "Apply"
+
+This will make the File/Edit/Help menu text match the window title color when the window is inactive (muted gray-blue instead of white).
 
 ## File Structure
 
